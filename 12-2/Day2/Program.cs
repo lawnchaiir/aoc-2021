@@ -15,7 +15,7 @@ namespace Day2
             {
                 ReadOnlySpan<char> spanLine = line.AsSpan();
                 int space = spanLine.IndexOf(" ");
-                string command = spanLine.Slice(0, space).ToString();
+                string command = spanLine[..space].ToString();
                 int amount = int.Parse(spanLine[(space + 1)..]);
 
                 PerformCommandPt2(command, amount);
