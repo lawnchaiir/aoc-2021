@@ -63,6 +63,7 @@ int main()
         boards.emplace_back(std::make_unique<Board>(boardInput));
     }
 
+    std::string output;
     for (const auto bingoNum : bingoNumbers)
     {
         for (auto& board : boards)
@@ -77,7 +78,7 @@ int main()
             if (board->CheckBingo())
             {
                 uint32_t score = board->GetScore();
-                std::string output;
+                output.clear();
                 output.append("Bingo\n");
                 output.append(std::to_string(score)).append("\n");
                 output.append(std::to_string(score * bingoNum)).append("\n");
