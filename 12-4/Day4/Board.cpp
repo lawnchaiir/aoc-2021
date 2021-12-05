@@ -31,6 +31,8 @@ std::string Board::ToString()
     uint32_t col = 0;
 
     std::string output;
+    uint32_t reserveSize = cBoardSize * cBoardSize * 2;
+    output.reserve(reserveSize);
 
     output.append("----------\n");
     for (uint32_t i = 0; i < cBoardSize; ++i)

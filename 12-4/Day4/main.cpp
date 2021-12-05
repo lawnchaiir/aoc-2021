@@ -32,6 +32,7 @@ int main()
     }
 
     std::vector<Board> boards;
+    boards.reserve(10);
 
     std::vector<std::string> boardInput;
     boardInput.reserve(Board::cBoardSize);
