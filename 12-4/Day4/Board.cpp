@@ -20,19 +20,11 @@ Board::Board(std::vector<std::string> input)
                 continue;
             }
             uint32_t boardValue = std::stoi(buffer);
-            /*std::cout << "Adding ";
-            std::cout << boardValue;
-            std::cout << "  to";
-            std::cout << row;
-            std::cout << "x";
-            std::cout << col << std::endl;*/
             board[row][col] = boardValue;
             col = (col + 1) % cBoardSize;
         }
         row = (row + 1) % cBoardSize;
     }
-
-    ToString();
 }
 
 void Board::ToString()
@@ -47,6 +39,10 @@ void Board::ToString()
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
             std::cout << board[row][col];
+            if (matches[row][col])
+            {
+                std::cout << "*";
+            }
             std::cout << ",";
 
             col = (col + 1) % cBoardSize;

@@ -58,6 +58,7 @@ int main()
         boards.push_back(Board{ boardInput });
     }
     
+    input_file.close();
 
     for (const auto bingoNum : bingoNumbers)
     {
@@ -76,5 +77,5 @@ int main()
         }
     }
     
-    input_file.close();
+    
 }
