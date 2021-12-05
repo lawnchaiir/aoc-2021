@@ -9,12 +9,16 @@ public:
     void ToString();
 
     void CallNumber(uint32_t num);
-    bool CheckBingo() const;
+    bool CheckBingo();
     uint32_t GetScore() const;
 
-private:
-    static constexpr uint32_t cBoardSize = 5;
-    uint32_t board[cBoardSize][cBoardSize];
+    bool Won() const { return m_won; }
     
-    bool matches[cBoardSize][cBoardSize];
+    static constexpr uint32_t cBoardSize = 5;
+private:
+    
+    uint32_t m_board[cBoardSize][cBoardSize] = { false };
+    bool m_matches[cBoardSize][cBoardSize] = { false };
+
+    bool m_won = false;
 };

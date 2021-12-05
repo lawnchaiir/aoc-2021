@@ -3,8 +3,6 @@
 
 
 Board::Board(std::vector<std::string> input)
-    : board()
-    , matches()
 {
     uint32_t row = 0;
     uint32_t col = 0;
@@ -20,7 +18,7 @@ Board::Board(std::vector<std::string> input)
                 continue;
             }
             uint32_t boardValue = std::stoi(buffer);
-            board[row][col] = boardValue;
+            m_board[row][col] = boardValue;
             col = (col + 1) % cBoardSize;
         }
         row = (row + 1) % cBoardSize;
@@ -38,8 +36,8 @@ void Board::ToString()
         std::cout << "[";
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            std::cout << board[row][col];
-            if (matches[row][col])
+            std::cout << m_board[row][col];
+            if (m_matches[row][col])
             {
                 std::cout << "*";
             }
@@ -61,9 +59,9 @@ void Board::CallNumber(uint32_t num)
     {
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (board[row][col] == num)
+            if (m_board[row][col] == num)
             {
-                matches[row][col] = true;
+                m_matches[row][col] = true;
                 return;
 
             }
@@ -74,7 +72,7 @@ void Board::CallNumber(uint32_t num)
     }
 }
 
-bool Board::CheckBingo() const
+bool Board::CheckBingo()
 {
     uint32_t row = 0;
     uint32_t col = 0;
@@ -89,12 +87,12 @@ bool Board::CheckBingo() const
         bool fullCol = true;
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (!matches[row][col])
+            if (!m_matches[row][col])
             {
                 fullRow = false;
             }
 
-            if (!matches[row2][col2])
+            if (!m_matches[row2][col2])
             {
                 fullCol = false;
             }
@@ -104,6 +102,7 @@ bool Board::CheckBingo() const
 
         if (fullRow || fullCol)
         {
+            m_won = true;
             return true;
         }
 
@@ -124,9 +123,9 @@ uint32_t Board::GetScore() const
     {
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (!matches[row][col])
+            if (!m_matches[row][col])
             {
-                sum += board[row][col];
+                sum += m_board[row][col];
             }
             col = (col + 1) % cBoardSize;
         }

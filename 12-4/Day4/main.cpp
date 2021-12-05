@@ -44,16 +44,15 @@ int main()
         boardInput.push_back(line);
 
         ++rowCount;
-        if (rowCount == 5)
+        if (rowCount == Board::cBoardSize)
         {
-
             boards.push_back(Board{ boardInput });
             boardInput.clear();
             rowCount = 0;
         }
-        
     }
-    if (rowCount == 5)
+
+    if (rowCount == Board::cBoardSize)
     {
         boards.push_back(Board{ boardInput });
     }
@@ -64,6 +63,11 @@ int main()
     {
         for (auto& board : boards)
         {
+            if (board.Won())
+            {
+                continue;
+            }
+
             board.CallNumber(bingoNum);
             if (board.CheckBingo())
             {
@@ -72,7 +76,6 @@ int main()
                 std::cout << score << std::endl;
                 std::cout << score * bingoNum << std::endl;
                 board.ToString();
-                return 0;
             }
         }
     }
