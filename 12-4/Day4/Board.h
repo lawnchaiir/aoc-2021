@@ -5,6 +5,11 @@ class Board
 {
 public:
     Board(std::vector<std::string> input);
+    Board(const Board&) = delete;
+    Board(const Board&&) = delete;
+    Board& operator=(Board&) = delete;
+    Board& operator=(Board&&) = delete;
+    ~Board() = default;
 
     std::string ToString();
 

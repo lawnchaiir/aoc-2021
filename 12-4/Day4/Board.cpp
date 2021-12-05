@@ -84,11 +84,8 @@ void Board::CallNumber(uint32_t num)
 
 bool Board::CheckBingo()
 {
-    uint32_t row = 0;
-    uint32_t col = 0;
-
-    uint32_t row2 = 0;
-    uint32_t col2 = 0;
+    uint32_t primaryAxis = 0;
+    uint32_t secondaryAxis = 0;
 
     for (uint32_t i = 0; i < cBoardSize; ++i)
     {
@@ -96,17 +93,21 @@ bool Board::CheckBingo()
         bool fullCol = true;
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (!m_matches[row][col])
+            if (!m_matches[primaryAxis][secondaryAxis])
             {
                 fullRow = false;
             }
 
-            if (!m_matches[row2][col2])
+            if (!m_matches[secondaryAxis][primaryAxis])
             {
                 fullCol = false;
             }
-            col = (col + 1) % cBoardSize;
-            row2 = (row2 + 1) % cBoardSize;
+            secondaryAxis = (secondaryAxis + 1) % cBoardSize;
+
+            if (!fullCol && !fullRow)
+            {
+                break;
+            }
         }
 
         if (fullRow || fullCol)
@@ -115,8 +116,7 @@ bool Board::CheckBingo()
             return true;
         }
 
-        col2 = (col2 + 1) % cBoardSize;
-        row = (row + 1) % cBoardSize;
+        primaryAxis = (primaryAxis + 1) % cBoardSize;
     }
 
     return false;

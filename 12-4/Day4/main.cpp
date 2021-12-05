@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include <fstream>
+#include <memory>
 
 #include "Board.h"
 
@@ -31,7 +32,7 @@ int main()
         }
     }
 
-    std::vector<Board> boards;
+    std::vector<std::unique_ptr<Board>> boards;
     boards.reserve(10);
 
     std::vector<std::string> boardInput;
@@ -49,7 +50,7 @@ int main()
         ++rowCount;
         if (rowCount == Board::cBoardSize)
         {
-            boards.push_back(Board{ boardInput });
+            boards.emplace_back(std::make_unique<Board>(boardInput));
             boardInput.clear();
             rowCount = 0;
         }
@@ -59,7 +60,7 @@ int main()
 
     if (rowCount == Board::cBoardSize)
     {
-        boards.push_back(Board{ boardInput });
+        boards.emplace_back(std::make_unique<Board>(boardInput));
     }
 
     for (const auto bingoNum : bingoNumbers)
@@ -67,20 +68,20 @@ int main()
         for (auto& board : boards)
         {
             // Part 2 Adjustment. 
-            if (board.Won())
+            if (board->Won())
             {
                 continue;
             }
 
-            board.CallNumber(bingoNum);
-            if (board.CheckBingo())
+            board->CallNumber(bingoNum);
+            if (board->CheckBingo())
             {
-                uint32_t score = board.GetScore();
+                uint32_t score = board->GetScore();
                 std::string output;
                 output.append("Bingo\n");
                 output.append(std::to_string(score)).append("\n");
                 output.append(std::to_string(score * bingoNum)).append("\n");
-                output.append(board.ToString()).append("\n");
+                output.append(board->ToString()).append("\n");
                 std::cout << output;
             }
         }
