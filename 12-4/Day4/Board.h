@@ -6,7 +6,7 @@ class Board
 public:
     Board(std::vector<std::string> input);
 
-    void ToString();
+    std::string ToString();
 
     void CallNumber(uint32_t num);
     bool CheckBingo();

@@ -34,6 +34,8 @@ int main()
     std::vector<Board> boards;
 
     std::vector<std::string> boardInput;
+    boardInput.reserve(Board::cBoardSize);
+
     uint32_t rowCount = 0;
     while (std::getline(input_file, line))
     {
@@ -52,17 +54,18 @@ int main()
         }
     }
 
+    input_file.close();
+
     if (rowCount == Board::cBoardSize)
     {
         boards.push_back(Board{ boardInput });
     }
-    
-    input_file.close();
 
     for (const auto bingoNum : bingoNumbers)
     {
         for (auto& board : boards)
         {
+            // Part 2 Adjustment. 
             if (board.Won())
             {
                 continue;
@@ -71,14 +74,14 @@ int main()
             board.CallNumber(bingoNum);
             if (board.CheckBingo())
             {
-                std::cout << "Bingo!" << std::endl;
                 uint32_t score = board.GetScore();
-                std::cout << score << std::endl;
-                std::cout << score * bingoNum << std::endl;
-                board.ToString();
+                std::string output;
+                output.append("Bingo\n");
+                output.append(std::to_string(score)).append("\n");
+                output.append(std::to_string(score * bingoNum)).append("\n");
+                output.append(board.ToString()).append("\n");
+                std::cout << output;
             }
         }
-    }
-    
-    
+    }        
 }

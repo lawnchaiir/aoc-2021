@@ -25,30 +25,38 @@ Board::Board(std::vector<std::string> input)
     }
 }
 
-void Board::ToString()
+std::string Board::ToString()
 {
     uint32_t row = 0;
     uint32_t col = 0;
 
-    std::cout << "----------" << std::endl;
+    std::string output;
+
+    output.append("----------\n");
     for (uint32_t i = 0; i < cBoardSize; ++i)
     {
-        std::cout << "[";
+        output.append("[");
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            std::cout << m_board[row][col];
+            output.append(std::to_string(m_board[row][col]));
             if (m_matches[row][col])
             {
-                std::cout << "*";
+                output.append("*");
             }
-            std::cout << ",";
+
+            if (j != cBoardSize - 1)
+            {
+                output.append(",");
+            }
 
             col = (col + 1) % cBoardSize;
         }
-        std::cout << "]" << std::endl;
+
+        output.append("]\n");
         row = (row + 1) % cBoardSize;
     }
-    std::cout << "----------" << std::endl;
+    output.append("----------\n");
+    return output;
 }
 
 void Board::CallNumber(uint32_t num)
@@ -61,9 +69,9 @@ void Board::CallNumber(uint32_t num)
         {
             if (m_board[row][col] == num)
             {
+                // This doesn't quite nail the feeling of using one of those weird bingo markers
                 m_matches[row][col] = true;
                 return;
-
             }
             col = (col + 1) % cBoardSize;
         }
@@ -76,7 +84,6 @@ bool Board::CheckBingo()
 {
     uint32_t row = 0;
     uint32_t col = 0;
-
 
     uint32_t row2 = 0;
     uint32_t col2 = 0;
@@ -109,7 +116,6 @@ bool Board::CheckBingo()
         col2 = (col2 + 1) % cBoardSize;
         row = (row + 1) % cBoardSize;
     }
-
 
     return false;
 }
