@@ -6,3 +6,4 @@ obj/
 Debug/
 Release/
 *vcxproj.user
+*.exe

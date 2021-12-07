@@ -21,9 +21,13 @@ public:
     
     static constexpr uint32_t cBoardSize = 5;
 private:
-    
+ 
+    static uint32_t GetBitIndex(uint32_t row, uint32_t col);
+
+    bool HasMatch(uint32_t row, uint32_t col) const;
+
     uint32_t m_board[cBoardSize][cBoardSize] = { false };
-    bool m_matches[cBoardSize][cBoardSize] = { false };
+    uint32_t matchesFlag = 0;
 
     bool m_won = false;
 };

@@ -41,7 +41,7 @@ std::string Board::ToString()
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
             output.append(std::to_string(m_board[row][col]));
-            if (m_matches[row][col])
+            if (HasMatch(row, col))
             {
                 output.append("*");
             }
@@ -72,7 +72,7 @@ void Board::CallNumber(uint32_t num)
             if (m_board[row][col] == num)
             {
                 // This doesn't quite nail the feeling of using one of those weird bingo markers
-                m_matches[row][col] = true;
+                matchesFlag |= GetBitIndex(row, col);
                 return;
             }
             col = (col + 1) % cBoardSize;
@@ -84,6 +84,11 @@ void Board::CallNumber(uint32_t num)
 
 bool Board::CheckBingo()
 {
+    if (matchesFlag == 0)
+    {
+        return false;
+    }
+
     uint32_t primaryAxis = 0;
     uint32_t secondaryAxis = 0;
 
@@ -93,21 +98,22 @@ bool Board::CheckBingo()
         bool fullCol = true;
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (!m_matches[primaryAxis][secondaryAxis])
+            if (!HasMatch(primaryAxis, secondaryAxis))
             {
                 fullRow = false;
             }
 
-            if (!m_matches[secondaryAxis][primaryAxis])
+            if (!HasMatch(secondaryAxis, primaryAxis))
             {
                 fullCol = false;
             }
-            secondaryAxis = (secondaryAxis + 1) % cBoardSize;
 
             if (!fullCol && !fullRow)
             {
                 break;
             }
+
+            secondaryAxis = (secondaryAxis + 1) % cBoardSize;
         }
 
         if (fullRow || fullCol)
@@ -131,7 +137,7 @@ uint32_t Board::GetScore() const
     {
         for (uint32_t j = 0; j < cBoardSize; ++j)
         {
-            if (!m_matches[row][col])
+            if (!HasMatch(row, col))
             {
                 sum += m_board[row][col];
             }
@@ -141,4 +147,22 @@ uint32_t Board::GetScore() const
         row = (row + 1) % cBoardSize;
     }
     return sum;
+}
+
+uint32_t Board::GetBitIndex(uint32_t row, uint32_t col)
+{
+    // ensure we don't have any zeroes
+    row++;
+    col++;
+
+    row *= cBoardSize;
+
+    return 1 << (row + col);
+    
+}
+
+bool Board::HasMatch(uint32_t row, uint32_t col) const
+{
+    uint32_t bitIndex = GetBitIndex(row, col);
+    return (matchesFlag & bitIndex) != 0;
 }

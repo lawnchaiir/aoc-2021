@@ -86,5 +86,5 @@ int main()
                 std::cout << output;
             }
         }
-    }        
+    }
 }
