@@ -11,7 +11,7 @@ public:
     Board& operator=(Board&&) = delete;
     ~Board() = default;
 
-    std::string ToString();
+    std::string ToString() const;
 
     void CallNumber(uint32_t num);
     bool CheckBingo();
@@ -27,7 +27,7 @@ private:
     bool HasMatch(uint32_t row, uint32_t col) const;
 
     uint32_t m_board[cBoardSize][cBoardSize] = { false };
-    uint32_t matchesFlag = 0;
+    uint32_t m_matchesFlag = 0;
 
     bool m_won = false;
 };

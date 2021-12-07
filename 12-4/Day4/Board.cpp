@@ -25,7 +25,7 @@ Board::Board(std::vector<std::string> input)
     }
 }
 
-std::string Board::ToString()
+std::string Board::ToString() const
 {
     uint32_t row = 0;
     uint32_t col = 0;
@@ -72,7 +72,7 @@ void Board::CallNumber(uint32_t num)
             if (m_board[row][col] == num)
             {
                 // This doesn't quite nail the feeling of using one of those weird bingo markers
-                matchesFlag |= GetBitIndex(row, col);
+                m_matchesFlag |= GetBitIndex(row, col);
                 return;
             }
             col = (col + 1) % cBoardSize;
@@ -84,7 +84,7 @@ void Board::CallNumber(uint32_t num)
 
 bool Board::CheckBingo()
 {
-    if (matchesFlag == 0)
+    if (m_matchesFlag == 0)
     {
         return false;
     }
@@ -164,5 +164,5 @@ uint32_t Board::GetBitIndex(uint32_t row, uint32_t col)
 bool Board::HasMatch(uint32_t row, uint32_t col) const
 {
     uint32_t bitIndex = GetBitIndex(row, col);
-    return (matchesFlag & bitIndex) != 0;
+    return (m_matchesFlag & bitIndex) != 0;
 }
