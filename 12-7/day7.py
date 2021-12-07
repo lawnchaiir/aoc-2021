@@ -11,16 +11,36 @@ with open("input.txt", "r") as f:
         upper_bound = max(upper_bound, pos)
         crab_sub_positions.append(pos)
 
-
 best_pos = upper_bound
 total_fuel = 0xFFFFFFFF
 
+distances = {}
+
 for i in range(upper_bound):
     sum = 0
+
     for pos in crab_sub_positions:
-        delta = abs(pos - i)
-        sum += delta
-    
+        distance = abs(i - pos)
+        if distance in distances:
+            sum += distances[distance]
+            continue
+
+        if pos > i:
+            direction = -1
+        elif pos < i:
+            direction = 1
+
+        fuel_cost = 1 * direction
+        curr_cost = 0
+        while pos != i:
+            curr_cost += fuel_cost
+            pos += (1 * direction)
+            fuel_cost += (1 * direction)
+        
+        curr_cost = abs(curr_cost)
+        sum += curr_cost
+        distances[distance] = curr_cost
+
     if sum < total_fuel:
         total_fuel = sum
         best_pos = i
