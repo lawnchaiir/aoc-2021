@@ -157,8 +157,9 @@ uint32_t Board::GetBitIndex(uint32_t row, uint32_t col)
 
     row *= cBoardSize;
 
-    return 1 << (row + col);
-    
+    uint32_t bitIndex = row + col - cBoardSize;
+
+    return 1 << bitIndex;
 }
 
 bool Board::HasMatch(uint32_t row, uint32_t col) const
