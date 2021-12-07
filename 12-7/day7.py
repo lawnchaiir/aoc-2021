@@ -5,7 +5,7 @@ upper_bound = -1
 
 with open("input.txt", "r") as f:
     line = f.read().split(",")
-    
+
     for v in line:
         pos = int(v)
         upper_bound = max(upper_bound, pos)
@@ -30,14 +30,13 @@ for i in range(upper_bound):
         elif pos < i:
             direction = 1
 
-        fuel_cost = 1 * direction
+        fuel_cost = 1
         curr_cost = 0
         while pos != i:
             curr_cost += fuel_cost
-            pos += (1 * direction)
-            fuel_cost += (1 * direction)
-        
-        curr_cost = abs(curr_cost)
+            pos += direction
+            fuel_cost += 1
+
         sum += curr_cost
         distances[distance] = curr_cost
 
