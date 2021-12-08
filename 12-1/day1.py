@@ -22,4 +22,3 @@ for i in range(3, len(lines)):
     prev_sum = curr_sum
 
 print(count)
-
