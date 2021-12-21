@@ -11,6 +11,7 @@ def isLowestOfNeighbors(x, y):
     val = lines[x][y]
 
     offsets = (-1, 0, 1)
+    ret = True
 
     if val == 9:
         return False
@@ -33,12 +34,15 @@ def isLowestOfNeighbors(x, y):
             
             # it's a diagonal
             if x_offset * y_offset != 0:
+                diags.append(compare_val)
                 continue
 
-            if compare_val < val:
-                return False
+            neighbors.append(compare_val)
 
-    return True
+            if compare_val < val:
+                ret = False
+
+    return ret
 
 lowest_coords = []
 for x, row in enumerate(lines):
